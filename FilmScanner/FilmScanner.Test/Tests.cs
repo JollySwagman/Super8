@@ -22,6 +22,9 @@ namespace XsltTest
         }
 
 
+        /// <summary>
+        /// Try and save 2 test frames
+        /// </summary>
         [Test]
         public void TestImageSave()
         {
