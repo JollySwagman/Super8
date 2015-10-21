@@ -5,6 +5,7 @@
 # *.[oa]
 # *~
 # Ignored files
+.suo 
 *.suo 
 *.user 
 bin
