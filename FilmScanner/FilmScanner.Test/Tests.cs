@@ -3,13 +3,14 @@ using System;
 using NUnit.Framework;
 using FilmScanner;
 using System.IO;
+using System.Drawing;
 
 
-namespace FilmScanner.UI
+namespace FilmScanner.Test
 {
 
     [TestFixture]
-    public class Tests
+    public class Tests : TestBase
     {
 
         [Test]
@@ -30,7 +31,7 @@ namespace FilmScanner.UI
 
             var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
 
-            filmScanner.ScanToDisk(workFolder, filename );
+            filmScanner.ScanToDisk(workFolder, filename);
         }
 
 
@@ -39,10 +40,12 @@ namespace FilmScanner.UI
         {
             var workFolder = ".";
 
+            Image frame;
             for (int i = 0; i < 20; i++)
             {
-                var frame = Frame.GetTestFrame(i.ToString(), true);
+                frame = Frame.GetTestFrame(i.ToString(), true);
                 frame.Save(Path.Combine(workFolder, i + ".bmp"));
+
             }
 
             var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);

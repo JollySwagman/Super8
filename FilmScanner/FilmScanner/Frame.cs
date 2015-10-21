@@ -66,11 +66,13 @@ namespace FilmScanner
             //img.Save("Frame_" + DateTime.Now.Ticks + ".jpg", ImageFormat.Jpeg);
 
             var memStream = new MemoryStream();
-            img.Save(memStream, ImageFormat.Jpeg);
+            //img.Save(memStream, ImageFormat.Jpeg);
 
             //return memStream.ToArray();
+            var result = (Image)img.Clone();
+            img.Dispose();
 
-            return img;
+            return result;
 
         }
 
