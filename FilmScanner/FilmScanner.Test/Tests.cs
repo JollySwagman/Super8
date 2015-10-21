@@ -2,6 +2,7 @@
 using System;
 using NUnit.Framework;
 using FilmScanner;
+using System.IO;
 
 
 namespace FilmScanner.UI
@@ -19,6 +20,34 @@ namespace FilmScanner.UI
             var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
 
             filmScanner.Scan(filename);
+        }
+
+        [Test]
+        public void Basic_Disk()
+        {
+            var workFolder = ".";
+            var filmScanner = new Scanner();
+
+            var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
+
+            filmScanner.ScanToDisk(workFolder, filename );
+        }
+
+
+        [Test]
+        public void Create_Video_From_Frames()
+        {
+            var workFolder = ".";
+
+            for (int i = 0; i < 20; i++)
+            {
+                var frame = Frame.GetTestFrame(i.ToString(), true);
+                frame.Save(Path.Combine(workFolder, i + ".bmp"));
+            }
+
+            var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
+
+            Video.CreateVideoFromFrameFiles(workFolder, "testout.avi");
         }
 
 

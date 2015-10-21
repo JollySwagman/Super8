@@ -55,6 +55,7 @@ namespace FilmScanner
 
         }
 
+
         public void ScanToDisk(string workFolder, string outputFilename)
         {
             Frame frame = null;
