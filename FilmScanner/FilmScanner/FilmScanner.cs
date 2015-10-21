@@ -18,7 +18,7 @@ namespace FilmScanner
     }
 
     /// <summary>
-    /// High-level scanning exectutive.
+    /// High-level scanning executive.
     /// Responsible for:
     ///      scanning all frames and saving frame images to disk
     /// Not responsible for:

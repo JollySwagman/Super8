@@ -68,7 +68,11 @@ namespace FilmScanner
             
             //return memStream.ToArray();
 
-            return img;
+            var result = (Image)img.Clone();
+
+            img.Dispose();
+
+            return result;
 
         }
 

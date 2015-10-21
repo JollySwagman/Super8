@@ -2,13 +2,13 @@
 using System;
 using NUnit.Framework;
 using FilmScanner;
+using System.IO;
 
-
-namespace XsltTest
+namespace FilmScanner.Test
 {
 
     [TestFixture]
-    public class Tests
+    public class Tests : TestBase
     {
 
         [Test]
@@ -19,6 +19,10 @@ namespace XsltTest
             var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
 
             filmScanner.Scan(filename);
+
+            Assert.That(new FileInfo(filename).Exists);
+
+
         }
 
 
