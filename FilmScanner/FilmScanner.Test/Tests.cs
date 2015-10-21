@@ -4,7 +4,7 @@ using NUnit.Framework;
 using FilmScanner;
 
 
-namespace XsltTest
+namespace FilmScanner.UI
 {
 
     [TestFixture]

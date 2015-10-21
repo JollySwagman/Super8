@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmScanner", "FilmScanner\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmScanner.Test", "FilmScanner.Test\FilmScanner.Test.csproj", "{CF91A9B1-4D34-4F2F-A029-D89DF7E359DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Super8Scanner.UI", "FilmScanner.UI\Super8Scanner.UI.csproj", "{46D4578A-ABE9-47A1-BC66-DB15A65F923F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmScanner.UI", "FilmScanner.UI\FilmScanner.UI.csproj", "{46D4578A-ABE9-47A1-BC66-DB15A65F923F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

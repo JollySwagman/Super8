@@ -22,8 +22,10 @@ namespace FilmScanner
 
         public int Index { get; set; }
 
-
-
+        public void Save(string filename)
+        {
+            this.Image.Save(filename);
+        }
 
         public static Image GetTestFrame(string message, bool flip)
         {
@@ -65,7 +67,7 @@ namespace FilmScanner
 
             var memStream = new MemoryStream();
             img.Save(memStream, ImageFormat.Jpeg);
-            
+
             //return memStream.ToArray();
 
             return img;

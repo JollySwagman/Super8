@@ -18,7 +18,7 @@ namespace FilmScanner
     }
 
     /// <summary>
-    /// High-level scanning exectutive.
+    /// High-level scanning executive.
     /// Responsible for:
     ///      scanning all frames and saving frame images to disk
     /// Not responsible for:
@@ -52,6 +52,25 @@ namespace FilmScanner
             while (frame.Result == FrameResultType.FrameOK);
 
             Video.CreateVideo(result, outputFilename);
+
+        }
+
+        public void ScanToDisk(string workFolder, string outputFilename)
+        {
+            Frame frame = null;
+            int index = 0;
+            string filename;
+            do
+            {
+                frame = GetNextFrame();
+
+                filename = Path.Combine(workFolder, string.Format("Frame_{0}.bmp", index));
+
+                frame.Save(filename);
+            }
+            while (frame.Result == FrameResultType.FrameOK);
+
+            Video.CreateVideoFromFrameFiles(workFolder, outputFilename);
 
         }
 
