@@ -91,13 +91,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="vedascore-apply-sample-full-response-v2.0.4.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Web.config" />
-    <Content Include="XSLTFile1.xslt">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DigitalIO.cs" />
