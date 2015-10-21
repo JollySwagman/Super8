@@ -17,6 +17,13 @@ namespace FilmScanner
         EndOfFilm
     }
 
+    /// <summary>
+    /// High-level scanning exectutive.
+    /// Responsible for:
+    ///      scanning all frames and saving frame images to disk
+    /// Not responsible for:
+    ///      creating video file from frames
+    /// </summary>
     public class Scanner
     {
 
