@@ -3,6 +3,8 @@ using System;
 using NUnit.Framework;
 using FilmScanner;
 using System.IO;
+using System.Drawing;
+
 
 namespace FilmScanner.Test
 {
@@ -23,6 +25,36 @@ namespace FilmScanner.Test
             Assert.That(new FileInfo(filename).Exists);
 
 
+        }
+
+        [Test]
+        public void Basic_Disk()
+        {
+            var workFolder = ".";
+            var filmScanner = new Scanner();
+
+            var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
+
+            filmScanner.ScanToDisk(workFolder, filename);
+        }
+
+
+        [Test]
+        public void Create_Video_From_Frames()
+        {
+            var workFolder = ".";
+
+            Image frame;
+            for (int i = 0; i < 20; i++)
+            {
+                frame = Frame.GetTestFrame(i.ToString(), true);
+                frame.Save(Path.Combine(workFolder, i + ".bmp"));
+
+            }
+
+            var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
+
+            Video.CreateVideoFromFrameFiles(workFolder, "testout.avi");
         }
 
 

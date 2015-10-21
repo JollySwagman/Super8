@@ -1,0 +1,63 @@
+﻿
+<<<<<<< HEAD
+using NUnit.Framework;
+using System;
+=======
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NUnit.Framework;
+>>>>>>> 5e1bd7e21e391d3f18b1f1824b9146b4a7b17a62
+using System.IO;
+
+namespace FilmScanner.Test
+{
+<<<<<<< HEAD
+    public class TestBase
+    {
+
+
+        [SetUp]
+        public void SetUp()
+        {
+
+=======
+
+    public class TestBase
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            foreach (var item in new DirectoryInfo(".").GetFiles("*.bmp"))
+            {
+                //item.Delete();
+            }
+>>>>>>> 5e1bd7e21e391d3f18b1f1824b9146b4a7b17a62
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+<<<<<<< HEAD
+            CleanFiles("*.avi");
+            CleanFiles("*.bmp");
+
+        }
+
+
+        private void CleanFiles(string pattern)
+        {
+            foreach (var item in new DirectoryInfo(".").GetFiles(pattern))
+            {
+                item.Delete();
+            }
+=======
+
+>>>>>>> 5e1bd7e21e391d3f18b1f1824b9146b4a7b17a62
+        }
+
+    }
+
+}

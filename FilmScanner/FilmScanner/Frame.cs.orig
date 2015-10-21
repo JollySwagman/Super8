@@ -67,15 +67,18 @@ namespace FilmScanner
 
             var memStream = new MemoryStream();
             //img.Save(memStream, ImageFormat.Jpeg);
-            
+
             //return memStream.ToArray();
             var result = (Image)img.Clone();
             img.Dispose();
 
+<<<<<<< HEAD
             var result = (Image)img.Clone();
 
             img.Dispose();
 
+=======
+>>>>>>> 5e1bd7e21e391d3f18b1f1824b9146b4a7b17a62
             return result;
 
         }

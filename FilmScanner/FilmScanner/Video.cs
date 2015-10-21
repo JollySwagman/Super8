@@ -9,7 +9,6 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
 namespace FilmScanner
-
 {
 
     /// <summary>
@@ -18,6 +17,69 @@ namespace FilmScanner
     /// <see cref="https://sharpavi.codeplex.com/"/>
     public class Video
     {
+
+        public static void CreateVideoFromFrameFiles(string workFolder, string outputFile)
+        {
+
+            var writer = new AviWriter(outputFile)
+            {
+                FramesPerSecond = 30,
+                // Emitting AVI v1 index in addition to OpenDML index (AVI v2)
+                // improves compatibility with some software, including 
+                // standard Windows programs like Media Player and File Explorer
+                EmitIndex1 = true
+            };
+
+            // returns IAviVideoStream
+            var stream = writer.AddVideoStream();
+
+            // set standard VGA resolution
+            stream.Width = 640;
+            stream.Height = 480;
+
+            // class SharpAvi.KnownFourCCs.Codecs contains FOURCCs for several well-known codecs
+            // Uncompressed is the default value, just set it for clarity
+            stream.Codec = KnownFourCCs.Codecs.Uncompressed;
+
+            // Uncompressed format requires to also specify bits per pixel
+            stream.BitsPerPixel = BitsPerPixel.Bpp32;
+
+
+            var frameData = new byte[stream.Width * stream.Height * 4];
+
+            var frames = new DirectoryInfo(workFolder).GetFiles("*.bmp");
+
+            foreach (var item in frames)
+            {
+
+                var bitmap = new Bitmap(item.FullName);
+
+                // Say, you have a System.Drawing.Bitmap
+                //Bitmap bitmap = (Bitmap)item.Image;
+
+                // and buffer of appropriate size for storing its bits
+                var buffer = new byte[stream.Width * stream.Height * 4];
+
+                var pixelFormat = PixelFormat.Format32bppRgb;
+
+                // Now copy bits from bitmap to buffer
+                var bits = bitmap.LockBits(new Rectangle(0, 0, stream.Width, stream.Height), ImageLockMode.ReadOnly, pixelFormat);
+
+                //Marshal.Copy(bits.Scan0, buffer, 0, buffer.Length);
+
+                Marshal.Copy(bits.Scan0, buffer, 0, buffer.Length);
+
+                bitmap.UnlockBits(bits);
+
+                // and flush buffer to encoding stream
+                stream.WriteFrame(true, buffer, 0, buffer.Length);
+
+            }
+
+            writer.Close();
+
+        }
+
 
         public static void CreateVideo(List<Frame> frames, string outputFile)
         {

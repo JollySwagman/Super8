@@ -55,6 +55,26 @@ namespace FilmScanner
 
         }
 
+
+        public void ScanToDisk(string workFolder, string outputFilename)
+        {
+            Frame frame = null;
+            int index = 0;
+            string filename;
+            do
+            {
+                frame = GetNextFrame();
+
+                filename = Path.Combine(workFolder, string.Format("Frame_{0}.bmp", index));
+
+                frame.Save(filename);
+            }
+            while (frame.Result == FrameResultType.FrameOK);
+
+            Video.CreateVideoFromFrameFiles(workFolder, outputFilename);
+
+        }
+
         /// <summary>
         /// Manages the scanning process to advance to and take one frame
         /// </summary>
