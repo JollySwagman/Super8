@@ -23,20 +23,18 @@ namespace FilmScanner.Test
             filmScanner.Scan(filename);
 
             Assert.That(new FileInfo(filename).Exists);
-
-
         }
 
-        [Test]
-        public void Basic_Disk()
-        {
-            var workFolder = ".";
-            var filmScanner = new Scanner();
+        //[Test]
+        //public void Basic_Disk()
+        //{
+        //    var workFolder = ".";
+        //    var filmScanner = new Scanner();
 
-            var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
+        //    var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
 
-            filmScanner.ScanToDisk(workFolder, filename);
-        }
+        //    filmScanner.ScanToDisk(workFolder, filename);
+        //}
 
 
         [Test]
@@ -51,11 +49,13 @@ namespace FilmScanner.Test
                 {
                     frame = Frame.GetTestFrame(i.ToString(), true);
 
-                    var frameFile = new FileInfo(Path.Combine(workFolder, i + ".bmp"));
+                    var frameFile = new FileInfo(Path.Combine(workFolder, string.Format("{0}_{1}.bmp", GetTestName(), i)));
 
-                    Trace.WriteLine(string.Format("writing to {0} ({1})", frameFile.Name, frameFile.Exists));
+                    Trace.WriteLine(string.Format("writing to {0} ({1})", frameFile.FullName, frameFile.Exists));
 
                     frame.Save(frameFile.FullName);
+
+                    frame.Dispose();
                 }
             }
 

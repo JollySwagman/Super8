@@ -47,9 +47,9 @@ namespace FilmScanner
             drawing.Clear(Color.Black);
 
             //create a brush for the text
-            Brush textBrush = new SolidBrush(Color.Brown);
+            Brush textBrush = new SolidBrush(Color.Yellow);
 
-            drawing.DrawString(message, new Font("Tahoma", 18), textBrush, 10, 10);
+            drawing.DrawString(message, new Font("Tahoma", 18), textBrush, 30, 30);
 
             //drawing.Save();
 
@@ -62,10 +62,7 @@ namespace FilmScanner
             textBrush.Dispose();
             drawing.Dispose();
 
-            //img.Save("Frame_" + DateTime.Now.Ticks + ".bmp");
-            //img.Save("Frame_" + DateTime.Now.Ticks + ".jpg", ImageFormat.Jpeg);
-
-            var memStream = new MemoryStream();
+            //var memStream = new MemoryStream();
             //img.Save(memStream, ImageFormat.Jpeg);
 
             //return memStream.ToArray();

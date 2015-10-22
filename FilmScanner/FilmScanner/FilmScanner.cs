@@ -67,7 +67,7 @@ namespace FilmScanner
 
                 filename = Path.Combine(workFolder, string.Format("Frame_{0}.bmp", index));
 
-                frame.Save(filename);
+                //frame.Save(filename);
             }
             while (frame.Result == FrameResultType.FrameOK);
 

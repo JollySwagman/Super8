@@ -2,11 +2,12 @@
 using System;
 using NUnit.Framework;
 using System.Diagnostics;
+using System.IO;
 
 namespace FilmScanner.Test
 {
     [TestFixture]
-    public class TestBase 
+    public class TestBase
     {
 
         private Stopwatch m_Stopwatch;
@@ -30,6 +31,8 @@ namespace FilmScanner.Test
         [TearDown]
         public void TearDown()
         {
+            FileCleanup();
+
             Trace.WriteLine("\n\n");
             Trace.WriteLine("".PadRight(BANNER_WIDTH, '-'));
 
@@ -37,6 +40,35 @@ namespace FilmScanner.Test
             Trace.WriteLine("Test: " + TestContext.CurrentContext.Test.Name);
             Trace.WriteLine("Elapsed: " + m_Stopwatch.Elapsed.ToString());
             Trace.WriteLine("".PadRight(BANNER_WIDTH, ch));
+        }
+
+
+        private void FileCleanup()
+        {
+            //System.Threading.Thread.Sleep(2000);
+
+            foreach (var item in new DirectoryInfo(".").GetFiles("*.bmp"))
+            {
+                Trace.WriteLine("deleting " + item.Name);
+                try
+                {
+                    item.Delete();
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("ex " + ex.Message);
+                }
+            }
+            foreach (var item in new DirectoryInfo(".").GetFiles("*.avi"))
+            {
+                Trace.WriteLine("deleting " + item.Name);
+                item.Delete();
+            }
+        }
+
+        protected string GetTestName()
+        {
+            return TestContext.CurrentContext.Test.Name;
         }
 
     }
