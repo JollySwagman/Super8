@@ -51,7 +51,7 @@ namespace FilmScanner
 
             drawing.DrawString(message, new Font("Tahoma", 18), textBrush, 10, 10);
 
-            drawing.Save();
+            //drawing.Save();
 
             // Once the drawing has been saved into img.... flip it if required
             if (flip)
@@ -67,13 +67,9 @@ namespace FilmScanner
 
             var memStream = new MemoryStream();
             //img.Save(memStream, ImageFormat.Jpeg);
-            
+
             //return memStream.ToArray();
             var result = (Image)img.Clone();
-            img.Dispose();
-
-            var result = (Image)img.Clone();
-
             img.Dispose();
 
             return result;

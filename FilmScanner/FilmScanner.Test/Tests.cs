@@ -4,7 +4,7 @@ using NUnit.Framework;
 using FilmScanner;
 using System.IO;
 using System.Drawing;
-
+using System.Diagnostics;
 
 namespace FilmScanner.Test
 {
@@ -44,17 +44,25 @@ namespace FilmScanner.Test
         {
             var workFolder = ".";
 
-            Image frame;
-            for (int i = 0; i < 20; i++)
+            for (int j = 0; j < 4; j++)
             {
-                frame = Frame.GetTestFrame(i.ToString(), true);
-                frame.Save(Path.Combine(workFolder, i + ".bmp"));
+                Image frame;
+                for (int i = 0; i < 20; i++)
+                {
+                    frame = Frame.GetTestFrame(i.ToString(), true);
 
+                    var filename = Path.Combine(workFolder, i + ".bmp");
+
+                    Trace.WriteLine("writing to "+ filename);
+
+                    frame.Save(filename);
+
+                }
             }
 
-            var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
+            var videoFilename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
 
-            Video.CreateVideoFromFrameFiles(workFolder, "testout.avi");
+            Video.CreateVideoFromFrameFiles(workFolder, videoFilename);
         }
 
 
