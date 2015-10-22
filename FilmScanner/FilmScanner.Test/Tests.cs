@@ -51,17 +51,15 @@ namespace FilmScanner.Test
                 {
                     frame = Frame.GetTestFrame(i.ToString(), true);
 
-                    var filename = Path.Combine(workFolder, i + ".bmp");
+                    var frameFile = new FileInfo(Path.Combine(workFolder, i + ".bmp"));
 
-                    Trace.WriteLine("writing to "+ filename);
+                    Trace.WriteLine(string.Format("writing to {0} ({1})", frameFile.Name, frameFile.Exists));
 
-                    frame.Save(filename);
-
+                    frame.Save(frameFile.FullName);
                 }
             }
 
             var videoFilename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
-
             Video.CreateVideoFromFrameFiles(workFolder, videoFilename);
         }
 
