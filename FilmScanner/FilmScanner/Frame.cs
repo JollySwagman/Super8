@@ -1,12 +1,7 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
+//using AForge.Imaging;
 
 namespace FilmScanner
 {
@@ -27,47 +22,71 @@ namespace FilmScanner
             this.Image.Save(filename);
         }
 
+        //private void GetImage()
+        //{
+        //    AForge.Imaging.Image i = AForge.Imaging.Image.;
+        //}
+
+        public static Image GetTestFrame2(string message, bool flip)
+        {
+            Bitmap flag = new Bitmap(640, 480);
+            Graphics flagGraphics = Graphics.FromImage(flag);
+            int red = 0;
+            int white = 11;
+            while (white <= 100)
+            {
+                flagGraphics.FillRectangle(Brushes.Red, 0, red, 200, 10);
+                flagGraphics.FillRectangle(Brushes.White, 0, white, 200, 10);
+                red += 20;
+                white += 20;
+            }
+
+            return flag;
+        }
+
+        public static Image GetTestFrame(string message)
+        {
+            return GetTestFrame(message, false);
+        }
+
         public static Image GetTestFrame(string message, bool flip)
         {
 
             //first, create a dummy bitmap just to get a graphics object
-            Image img = new Bitmap(1, 1);
-            Graphics drawing = Graphics.FromImage(img);
+            Image img1 = new Bitmap(1, 1);
+            Graphics drawing1 = Graphics.FromImage(img1);
 
             //free up the dummy image and old graphics object
-            img.Dispose();
-            drawing.Dispose();
+            img1.Dispose();
+            drawing1.Dispose();
+
+            Image result = null;
 
             //create a new image of the right size
-            img = new Bitmap(640, 480);
-
-            drawing = Graphics.FromImage(img);
-
-            //paint the background
-            drawing.Clear(Color.Black);
-
-            //create a brush for the text
-            Brush textBrush = new SolidBrush(Color.Yellow);
-
-            drawing.DrawString(message, new Font("Tahoma", 18), textBrush, 30, 30);
-
-            //drawing.Save();
-
-            // Once the drawing has been saved into img.... flip it if required
-            if (flip)
+            using (var img = new Bitmap(640, 480))
             {
-                img.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                var drawing = Graphics.FromImage(img);
+
+                //paint the background
+                drawing.Clear(Color.Black);
+
+                //create a brush for the text
+                Brush textBrush = new SolidBrush(Color.Yellow);
+
+                drawing.DrawString(message, new Font("Tahoma", 32), textBrush, 30, 30);
+
+                // flip it if required
+                if (flip)
+                {
+                    img.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                }
+
+                textBrush.Dispose();
+                drawing.Dispose();
+
+                // return a clone of the image to avoid contention???
+                result = (Image)img.Clone();
             }
-
-            textBrush.Dispose();
-            drawing.Dispose();
-
-            //var memStream = new MemoryStream();
-            //img.Save(memStream, ImageFormat.Jpeg);
-
-            //return memStream.ToArray();
-            var result = (Image)img.Clone();
-            img.Dispose();
 
             return result;
 
