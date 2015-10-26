@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DigitalIO.cs" />
+    <Compile Include="FilmCalc.cs" />
     <Compile Include="FilmScanner.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="Motor.cs" />
@@ -118,6 +119,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FilmScanner.Common\FilmScanner.Common.csproj">
+      <Project>{76ab1da5-930e-4026-95f1-0ab7a3b1a1e1}</Project>
+      <Name>FilmScanner.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

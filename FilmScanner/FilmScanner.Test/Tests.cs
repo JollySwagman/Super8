@@ -30,6 +30,14 @@ namespace FilmScanner.Test
         [Test]
         public void Can_Create_Video_From_Frame_Files()
         {
+            const int NUMBER_OF_FRAMES = 2500;
+            const int DURATION_SECONDS = 60;
+            const int FRAME_RATE = 18;
+
+            var totalFrames = DURATION_SECONDS * FRAME_RATE;
+
+            Trace.WriteLine("totalFrames: "+ totalFrames);
+
             var workFolder = new DirectoryInfo(@".\WorkFolder");
             if (workFolder.Exists == false)
             {
@@ -39,7 +47,7 @@ namespace FilmScanner.Test
             var imageFormat = ImageFormat.Png;
 
             Image frame;
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < NUMBER_OF_FRAMES; i++)
             {
                 frame = Frame.GetTestFrame("Frame " + i.ToString(), true);
 

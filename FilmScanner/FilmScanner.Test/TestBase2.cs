@@ -21,6 +21,10 @@ namespace RSTest.Integration.ComprehensiveCreditReporting
             return TestContext.CurrentContext.Test.Name;
         }
 
+        public TestBase2()
+        {
+            throw new NotImplementedException();
+        }
 
         [TestFixtureSetUp]
         public void TestFixtureSetUp()

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FilmScanner.Common
 {
-    public static class Extensions
+    public static partial class Extensions
     {
 
         /// <summary>
@@ -65,6 +65,37 @@ namespace FilmScanner.Common
         {
             float result;
             return float.TryParse(s, out result);
+        }
+
+        public static string Description(this TimeSpan ts)
+        {
+            var result = (string)null;
+
+            switch (ts.Days)
+            {
+                case 0:
+                    result = string.Format("{1} hours, {2} minutes", ts.Days, ts.Hours, ts.Minutes);
+                    break;
+
+                case 1:
+                    result = string.Format("{0} day, {1} hours, {2} minutes", ts.Days, ts.Hours, ts.Minutes);
+                    break;
+
+                default:
+                    result = string.Format("{0} days, {1} hours, {2} minutes", ts.Days, ts.Hours, ts.Minutes);
+                    break;
+            }
+
+            //if (ts.Days == 0)
+            //{
+            //    result = string.Format("{1} hours, {2} minutes", ts.Days, ts.Hours, ts.Minutes);
+            //}
+            //else
+            //{
+            //    result = string.Format("{0} days, {1} hours, {2} minutes", ts.Days, ts.Hours, ts.Minutes);
+            //}
+
+            return result;
         }
 
     }
