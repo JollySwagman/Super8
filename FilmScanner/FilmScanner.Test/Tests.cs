@@ -39,23 +39,21 @@ namespace FilmScanner.Test
         [Test]
         public void Create_Video_From_Frames()
         {
+
             var workFolder = ".";
 
-            for (int j = 0; j < 4; j++)
+            Image frame;
+            for (int i = 0; i < 20; i++)
             {
-                Image frame;
-                for (int i = 0; i < 20; i++)
-                {
-                    frame = Frame.GetTestFrame(i.ToString(), true);
+                frame = Frame.GetTestFrame("Frame "+ i.ToString());
 
-                    var frameFile = new FileInfo(Path.Combine(workFolder, string.Format("{0}_{1}.bmp", GetTestName(), i)));
+                var frameFile = new FileInfo(Path.Combine(workFolder, string.Format("{0}_{1}.bmp", GetTestName(), i)));
 
-                    Trace.WriteLine(string.Format("writing to {0} ({1})", frameFile.FullName, frameFile.Exists));
+                Trace.WriteLine(string.Format("writing to {0} ({1})", frameFile.FullName, frameFile.Exists));
 
-                    frame.Save(frameFile.FullName);
+                frame.Save(frameFile.FullName);
 
-                    frame.Dispose();
-                }
+                frame.Dispose();
             }
 
             var videoFilename = string.Format("test_{0}.avi", DateTime.Now.Ticks);

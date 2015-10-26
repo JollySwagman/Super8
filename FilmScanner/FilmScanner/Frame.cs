@@ -22,11 +22,6 @@ namespace FilmScanner
             this.Image.Save(filename);
         }
 
-        //private void GetImage()
-        //{
-        //    AForge.Imaging.Image i = AForge.Imaging.Image.;
-        //}
-
         public static Image GetTestFrame2(string message, bool flip)
         {
             Bitmap flag = new Bitmap(640, 480);

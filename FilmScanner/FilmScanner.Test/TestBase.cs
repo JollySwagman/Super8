@@ -50,8 +50,8 @@ namespace FilmScanner.Test
             // File settling
             System.Threading.Thread.Sleep(5000);
 
-            DeleteFiles("", "*.bmp");
-            DeleteFiles("", "*.avi");
+            //DeleteFiles("", "*.bmp");
+            //DeleteFiles("", "*.avi");
 
         }
 
@@ -65,6 +65,7 @@ namespace FilmScanner.Test
             var files = new DirectoryInfo(folder).GetFiles(pattern).ToList();
             Trace.WriteLine(string.Format(@"{0} files found in {1}\{2}", files.Count, folder, pattern));
 
+            var deletedOK = true;
             foreach (var item in files)
             {
                 try
@@ -74,8 +75,14 @@ namespace FilmScanner.Test
                 }
                 catch (Exception ex)
                 {
+                    deletedOK = false;
                     Trace.WriteLine("Error: " + ex.Message);
                 }
+            }
+
+            if (deletedOK == false)
+            {
+                throw new ApplicationException("Unable to delete all files.");
             }
         }
 

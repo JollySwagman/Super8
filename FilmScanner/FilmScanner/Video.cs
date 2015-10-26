@@ -18,9 +18,13 @@ namespace FilmScanner
     public class Video
     {
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="workFolder"></param>
+        /// <param name="outputFile"></param>
         public static void CreateVideoFromFrameFiles(string workFolder, string outputFile)
         {
-
             var writer = new AviWriter(outputFile)
             {
                 FramesPerSecond = 30,
@@ -44,18 +48,11 @@ namespace FilmScanner
             // Uncompressed format requires to also specify bits per pixel
             stream.BitsPerPixel = BitsPerPixel.Bpp32;
 
-
-            var frameData = new byte[stream.Width * stream.Height * 4];
-
             var frames = new DirectoryInfo(workFolder).GetFiles("*.bmp");
 
             foreach (var item in frames)
             {
-
-                var bitmap = new Bitmap(item.FullName);
-
-                // Say, you have a System.Drawing.Bitmap
-                //Bitmap bitmap = (Bitmap)item.Image;
+                var bitmap = AForge.Imaging.Image.FromFile(item.FullName);
 
                 // and buffer of appropriate size for storing its bits
                 var buffer = new byte[stream.Width * stream.Height * 4];
@@ -74,9 +71,13 @@ namespace FilmScanner
                 // and flush buffer to encoding stream
                 stream.WriteFrame(true, buffer, 0, buffer.Length);
 
+                bitmap = null;
             }
 
+            stream = null;
+
             writer.Close();
+            writer = null;
 
         }
 
@@ -136,6 +137,7 @@ namespace FilmScanner
 
             }
 
+            stream = null;
             writer.Close();
 
         }
