@@ -1,12 +1,14 @@
 ﻿
 using System;
+using System.Linq;
 using NUnit.Framework;
 using System.Diagnostics;
 using System.IO;
+using FilmScanner.Common;
 
 namespace FilmScanner.Test
 {
-    [TestFixture]
+
     public class TestBase
     {
 
@@ -45,26 +47,38 @@ namespace FilmScanner.Test
 
         private void FileCleanup()
         {
-            //System.Threading.Thread.Sleep(2000);
+            // File settling
+            System.Threading.Thread.Sleep(5000);
 
-            foreach (var item in new DirectoryInfo(".").GetFiles("*.bmp"))
+            DeleteFiles("", "*.bmp");
+            DeleteFiles("", "*.avi");
+
+        }
+
+
+        private void DeleteFiles(string folder, string pattern)
+        {
+            if (folder.IsNullOrWhiteSpace())
             {
-                Trace.WriteLine("deleting " + item.Name);
+                folder = ".";
+            }
+            var files = new DirectoryInfo(folder).GetFiles(pattern).ToList();
+            Trace.WriteLine(string.Format(@"{0} files found in {1}\{2}", files.Count, folder, pattern));
+
+            foreach (var item in files)
+            {
                 try
                 {
                     item.Delete();
+                    Trace.WriteLine("Deleted: " + item.Name);
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("ex " + ex.Message);
+                    Trace.WriteLine("Error: " + ex.Message);
                 }
             }
-            foreach (var item in new DirectoryInfo(".").GetFiles("*.avi"))
-            {
-                Trace.WriteLine("deleting " + item.Name);
-                item.Delete();
-            }
         }
+
 
         protected string GetTestName()
         {

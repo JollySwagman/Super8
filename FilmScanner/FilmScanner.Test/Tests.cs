@@ -9,7 +9,6 @@ using System.Diagnostics;
 namespace FilmScanner.Test
 {
 
-    [TestFixture]
     public class Tests : TestBase
     {
 
@@ -61,6 +60,7 @@ namespace FilmScanner.Test
 
             var videoFilename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
             Video.CreateVideoFromFrameFiles(workFolder, videoFilename);
+
         }
 
 
