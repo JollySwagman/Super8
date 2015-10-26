@@ -24,8 +24,14 @@ namespace FilmScanner
         /// </summary>
         /// <param name="workFolder"></param>
         /// <param name="outputFile"></param>
-        public static void CreateVideoFromFrameFiles(string workFolder, string outputFile, ImageFormat frameFormat)
+        public static void CreateVideoFromFrameFiles(DirectoryInfo workFolder, string outputFile, ImageFormat frameFormat)
         {
+
+            if (workFolder.Exists == false)
+            {
+                throw new DirectoryNotFoundException(workFolder.FullName);
+            }
+
             var writer = new AviWriter(outputFile)
             {
                 FramesPerSecond = 30,
@@ -50,7 +56,7 @@ namespace FilmScanner
             stream.BitsPerPixel = BitsPerPixel.Bpp32;
 
             // Get frame files' info in order
-            var frames = new DirectoryInfo(workFolder).GetFiles("*." + frameFormat.ToString()).ToList().OrderBy(f => f.LastWriteTime);
+            var frames = workFolder.GetFiles("*." + frameFormat.ToString()).ToList().OrderBy(f => f.LastWriteTime);
 
             foreach (var item in frames)
             {

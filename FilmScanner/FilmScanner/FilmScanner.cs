@@ -57,7 +57,7 @@ namespace FilmScanner
         }
 
 
-        public void ScanToDisk(string workFolder, string outputFilename)
+        public void ScanMovie(DirectoryInfo workFolder, string outputFilename)
         {
             Frame frame = null;
             int index = 0;
@@ -66,7 +66,7 @@ namespace FilmScanner
             {
                 frame = GetNextFrame();
 
-                filename = Path.Combine(workFolder, string.Format("Frame_{0}.bmp", index));
+                filename = Path.Combine(workFolder.FullName, string.Format("Frame_{0}.bmp", index));
 
                 //frame.Save(filename);
             }
