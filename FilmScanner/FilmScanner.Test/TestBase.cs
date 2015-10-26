@@ -48,9 +48,9 @@ namespace FilmScanner.Test
         private void FileCleanup()
         {
             // File settling
-            System.Threading.Thread.Sleep(5000);
+            //System.Threading.Thread.Sleep(5000);
 
-            //DeleteFiles("", "*.bmp");
+            DeleteFiles("", "*.bmp");
             //DeleteFiles("", "*.avi");
 
         }

@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using SharpAvi.Output;
@@ -48,7 +49,8 @@ namespace FilmScanner
             // Uncompressed format requires to also specify bits per pixel
             stream.BitsPerPixel = BitsPerPixel.Bpp32;
 
-            var frames = new DirectoryInfo(workFolder).GetFiles("*.bmp");
+            // Get frame files' info in order
+            var frames = new DirectoryInfo(workFolder).GetFiles("*.bmp").ToList().OrderBy(f => f.LastWriteTime);
 
             foreach (var item in frames)
             {

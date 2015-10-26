@@ -39,7 +39,6 @@ namespace FilmScanner.Test
         [Test]
         public void Create_Video_From_Frames()
         {
-
             var workFolder = ".";
 
             Image frame;
