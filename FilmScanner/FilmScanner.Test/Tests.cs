@@ -45,7 +45,7 @@ namespace FilmScanner.Test
             Image frame;
             for (int i = 0; i < 20; i++)
             {
-                frame = Frame.GetTestFrame("Frame "+ i.ToString());
+                frame = Frame.GetTestFrame("Frame " + i.ToString(), true);
 
                 var frameFile = new FileInfo(Path.Combine(workFolder, string.Format("{0}_{1}.bmp", GetTestName(), i)));
 

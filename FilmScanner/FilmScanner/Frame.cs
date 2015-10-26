@@ -22,23 +22,6 @@ namespace FilmScanner
             this.Image.Save(filename);
         }
 
-        public static Image GetTestFrame2(string message, bool flip)
-        {
-            Bitmap flag = new Bitmap(640, 480);
-            Graphics flagGraphics = Graphics.FromImage(flag);
-            int red = 0;
-            int white = 11;
-            while (white <= 100)
-            {
-                flagGraphics.FillRectangle(Brushes.Red, 0, red, 200, 10);
-                flagGraphics.FillRectangle(Brushes.White, 0, white, 200, 10);
-                red += 20;
-                white += 20;
-            }
-
-            return flag;
-        }
-
         public static Image GetTestFrame(string message)
         {
             return GetTestFrame(message, false);
@@ -47,13 +30,11 @@ namespace FilmScanner
         public static Image GetTestFrame(string message, bool flip)
         {
 
-            //first, create a dummy bitmap just to get a graphics object
-            Image img1 = new Bitmap(1, 1);
-            Graphics drawing1 = Graphics.FromImage(img1);
-
-            //free up the dummy image and old graphics object
-            img1.Dispose();
-            drawing1.Dispose();
+            // Create a dummy bitmap just to get a graphics object
+            //Image img1 = new Bitmap(1, 1);
+            //Graphics drawing1 = Graphics.FromImage(img1);
+            //img1.Dispose();
+            //drawing1.Dispose();
 
             Image result = null;
 
