@@ -103,6 +103,7 @@ namespace Super8Scanner.UI
 
             if (takeFrame)
             {
+                // Save the frame to disk
                 var filename = new FileInfo(@"c:\dev\frames\frame_" + DateTime.Now.Ticks + ".png");
                 m_image.Save(filename.FullName, ImageFormat.Png);
                 takeFrame = false;

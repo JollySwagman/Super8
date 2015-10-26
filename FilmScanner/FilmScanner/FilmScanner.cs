@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace FilmScanner
 {
@@ -71,7 +72,9 @@ namespace FilmScanner
             }
             while (frame.Result == FrameResultType.FrameOK);
 
-            Video.CreateVideoFromFrameFiles(workFolder, outputFilename);
+            var imageFormat = ImageFormat.Bmp;
+
+            Video.CreateVideoFromFrameFiles(workFolder, outputFilename, imageFormat);
 
         }
 

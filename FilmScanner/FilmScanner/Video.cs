@@ -24,7 +24,7 @@ namespace FilmScanner
         /// </summary>
         /// <param name="workFolder"></param>
         /// <param name="outputFile"></param>
-        public static void CreateVideoFromFrameFiles(string workFolder, string outputFile)
+        public static void CreateVideoFromFrameFiles(string workFolder, string outputFile, ImageFormat frameFormat)
         {
             var writer = new AviWriter(outputFile)
             {
@@ -50,7 +50,7 @@ namespace FilmScanner
             stream.BitsPerPixel = BitsPerPixel.Bpp32;
 
             // Get frame files' info in order
-            var frames = new DirectoryInfo(workFolder).GetFiles("*.bmp").ToList().OrderBy(f => f.LastWriteTime);
+            var frames = new DirectoryInfo(workFolder).GetFiles("*." + frameFormat.ToString()).ToList().OrderBy(f => f.LastWriteTime);
 
             foreach (var item in frames)
             {
@@ -63,8 +63,6 @@ namespace FilmScanner
 
                 // Now copy bits from bitmap to buffer
                 var bits = bitmap.LockBits(new Rectangle(0, 0, stream.Width, stream.Height), ImageLockMode.ReadOnly, pixelFormat);
-
-                //Marshal.Copy(bits.Scan0, buffer, 0, buffer.Length);
 
                 Marshal.Copy(bits.Scan0, buffer, 0, buffer.Length);
 

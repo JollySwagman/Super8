@@ -5,6 +5,7 @@ using FilmScanner;
 using System.IO;
 using System.Drawing;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 
 namespace FilmScanner.Test
 {
@@ -41,22 +42,27 @@ namespace FilmScanner.Test
         {
             var workFolder = ".";
 
+            //var imageFormat = ImageFormat.Bmp;
+            var imageFormat = ImageFormat.Png;
+
             Image frame;
             for (int i = 0; i < 20; i++)
             {
                 frame = Frame.GetTestFrame("Frame " + i.ToString(), true);
 
-                var frameFile = new FileInfo(Path.Combine(workFolder, string.Format("{0}_{1}.bmp", GetTestName(), i)));
+                var filename = string.Format("{0}_{1}.{2}", GetTestName(), i, imageFormat.ToString());
+
+                var frameFile = new FileInfo(Path.Combine(workFolder, filename));
 
                 Trace.WriteLine(string.Format("writing to {0} ({1})", frameFile.FullName, frameFile.Exists));
 
-                frame.Save(frameFile.FullName);
+                frame.Save(frameFile.FullName, imageFormat);
 
                 frame.Dispose();
             }
 
             var videoFilename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
-            Video.CreateVideoFromFrameFiles(workFolder, videoFilename);
+            Video.CreateVideoFromFrameFiles(workFolder, videoFilename, imageFormat);
 
         }
 

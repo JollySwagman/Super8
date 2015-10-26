@@ -30,6 +30,7 @@ namespace FilmScanner.Test
             m_Stopwatch.Start();
         }
 
+
         [TearDown]
         public void TearDown()
         {
@@ -52,7 +53,6 @@ namespace FilmScanner.Test
 
             DeleteFiles("", "*.bmp");
             //DeleteFiles("", "*.avi");
-
         }
 
 
