@@ -10,6 +10,7 @@ using FilmScanner.Common;
 
 namespace FilmScanner.Test
 {
+    [TestFixture]
     public class FilmCalcTests : TestBase
     {
 
@@ -40,7 +41,7 @@ namespace FilmScanner.Test
         }
 
         [Test]
-        public void TimeSpan_Test()
+        public void TimeSpanTest()
         {
             TimeSpan ts;
 
