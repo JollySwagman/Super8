@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿
+using System;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-
 using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Drawing.Imaging;
@@ -13,10 +9,17 @@ using System.IO;
 
 namespace Super8Scanner.UI
 {
+
+    /// <summary>
+    /// See http://www.emgu.com/wiki/index.php/Camera_Capture_in_7_lines_of_code ??
+    /// </summary>
     public partial class Form2 : Form
     {
+
         private bool DeviceExist = false;
+
         private FilterInfoCollection videoDevices;
+
         private VideoCaptureDevice videoSource = null;
 
         public Form2()
@@ -146,6 +149,6 @@ namespace Super8Scanner.UI
             takeFrame = true;
         }
 
-
     }
+
 }

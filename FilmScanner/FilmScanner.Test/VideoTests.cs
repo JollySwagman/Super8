@@ -1,12 +1,7 @@
 ﻿
 using System;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using FilmScanner.Common;
+using System.Drawing.Imaging;
 
 namespace FilmScanner.Test
 {
@@ -16,9 +11,10 @@ namespace FilmScanner.Test
     {
 
         [Test]
-        public void VideoOCTest()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Throw_On_Missing_Work_Folder()
         {
-            Video.xxx();
+            Video.CreateVideoFromFrameFiles(null, "outfile.avi", ImageFormat.Bmp);
         }
 
     }
