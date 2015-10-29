@@ -1,31 +1,26 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-//using AForge.Imaging;
+using System.Linq;
+using System.Web;
 
 namespace FilmScanner
 {
-    public class Frame 
+    public class TestFrameProvider : IFrameProvider
     {
 
-        // Image CaptureFrame()
-
-        /// <summary>
-        /// Scanner result for this frame
-        /// </summary>
-        public FrameResultType Result { get; set; }
-
-        public Image Image { get; set; }
-
-        public int Index { get; set; }
-
-        public void Save(string filename)
+        Image IFrameProvider.CaptureFrame()
         {
-            this.Image.Save(filename);
+            return GetTestFrame("CaptureFrame()");
         }
 
+        public static Image GetTestFrame(string message)
+        {
+            return GetTestFrame(message, false);
+        }
 
-        public static Image GetTestFrame2(string message, bool flip)
+        public static Image GetTestFrame(string message, bool flip)
         {
 
             // Create a dummy bitmap just to get a graphics object
@@ -67,5 +62,4 @@ namespace FilmScanner
         }
 
     }
-
 }

@@ -6,15 +6,16 @@ using System.Web;
 
 namespace FilmScanner
 {
-    public class DigitalIO
+    public enum StateType
+    {
+        LOW, HIGH
+    }
+
+    public class DigitalIO : IDigitalIO
     {
 
-        public enum StateType
-        {
-            LOW, HIGH
-        }
-
         public StateType State { get; set; }
+
         private int m_PinIndex;
 
         public bool IsLow()

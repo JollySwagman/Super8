@@ -17,6 +17,13 @@ namespace FilmScanner.Test
         private char ch = '■';
 
 
+        //int PinLedLighting = 1;
+        public static int PinFilmSensor = 2;
+        public static int PinSprocketHoleSensor = 3;
+
+        //public IDigitalIO FilmSensor = new DigitalIO(PinFilmSensor);
+        //public IDigitalIO SprocketHoleSensor = new DigitalIO(PinFilmSensor);
+
         [SetUp]
         public void Setup()
         {

@@ -10,6 +10,7 @@ using FilmScanner.Common;
 
 namespace FilmScanner.Test
 {
+
     [TestFixture]
     public class FilmCalcTests : TestBase
     {

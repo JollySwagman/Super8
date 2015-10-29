@@ -148,6 +148,10 @@ namespace FilmScanner
 
         }
 
+        public static string xxx()
+        {
+            return "hello";
+        }
 
         //private static byte[] BitmapToByteArray(Image img)
         //{

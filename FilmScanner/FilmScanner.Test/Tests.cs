@@ -1,7 +1,7 @@
 ﻿
 using System;
 using NUnit.Framework;
-using FilmScanner;
+using Rhino.Mocks;
 using System.IO;
 using System.Drawing;
 using System.Diagnostics;
@@ -10,19 +10,78 @@ using System.Drawing.Imaging;
 namespace FilmScanner.Test
 {
 
+    [TestFixture]
     public class Tests : TestBase
     {
 
         [Test]
-        public void Basic()
+        public void Can_Scan_And_Save_Frame()
         {
-            var filmScanner = new Scanner();
+            var filmSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+            var sprocketHoleSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+
+            var filmScanner = new FilmScanner(sprocketHoleSensorStub, filmSensorStub);
 
             var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
 
-            filmScanner.Scan(filename);
+            var fp = new TestFrameProvider();
+            var fs = new FrameScanner();
 
-            Assert.That(new FileInfo(filename).Exists);
+            var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
+
+            Assert.That(frame, Is.Not.Null);
+
+            Assert.That(frame.Image, Is.Not.Null);
+            Assert.That(frame.Image.Width, Is.EqualTo(640));
+
+            Trace.WriteLine("Width: " + frame.Image.Size.Width);
+            Trace.WriteLine("Height: " + frame.Image.Size.Height);
+
+            //Assert.That(new FileInfo(filename).Exists);
+        }
+
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Throw_On_Null_FrameProvider()
+        {
+            var fs = new FrameScanner();
+            var frame = fs.GetNextFrame(null, null, null);
+        }
+
+
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "No film detected.")]
+        public void FrameScanner_Aborts_If_No_Film_Detected()
+        {
+            var filmSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+            var sprocketHoleSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+
+            filmSensorStub.Stub(x => x.IsLow()).Return(true);
+
+            sprocketHoleSensorStub.Stub(x => x.IsHigh()).Return(false);
+
+            var fp = new TestFrameProvider();
+            var fs = new FrameScanner();
+
+            var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
+        }
+
+
+        [Test]
+        [ExpectedException(typeof(TimeoutException), ExpectedMessage = "No sprocket hole detected within timeout period.")]
+        public void FrameScanner_SprocketHole_Detect_Timeout()
+        {
+            var filmSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+            var sprocketHoleSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+
+            filmSensorStub.Stub(x => x.IsHigh()).Return(true);
+            sprocketHoleSensorStub.Stub(x => x.IsLow()).Return(true);
+
+            var fp = new TestFrameProvider();
+            var fs = new FrameScanner();
+
+            var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
         }
 
 
@@ -30,12 +89,12 @@ namespace FilmScanner.Test
         [Test]
         public void Can_Create_Video_From_Frame_Files()
         {
-            const int DURATION_SECONDS = 60;
+            const int DURATION_SECONDS = 10;
             const int FRAME_RATE = 18;
 
             var totalFrames = DURATION_SECONDS * FRAME_RATE;
 
-            Trace.WriteLine("totalFrames: "+ totalFrames);
+            Trace.WriteLine("totalFrames: " + totalFrames);
 
             var workFolder = new DirectoryInfo(@".\WorkFolder");
             if (workFolder.Exists == false)
@@ -45,10 +104,11 @@ namespace FilmScanner.Test
 
             var imageFormat = ImageFormat.Png;
 
+            // CREATE FRAME FILES TO ADD TO THE VIDEO
             Image frame;
             for (int i = 0; i < totalFrames; i++)
             {
-                frame = Frame.GetTestFrame("Frame " + i.ToString(), true);
+                frame = TestFrameProvider.GetTestFrame("Frame " + i.ToString(), true);
 
                 var filename = string.Format("{0}_{1}.{2}", GetTestName(), i.ToString("000000000"), imageFormat.ToString());
 
@@ -61,6 +121,7 @@ namespace FilmScanner.Test
                 frame.Dispose();
             }
 
+            // CREATE THE VIDEO
             var videoFilename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
             Video.CreateVideoFromFrameFiles(workFolder, videoFilename, imageFormat);
 
@@ -73,13 +134,13 @@ namespace FilmScanner.Test
         [Test]
         public void TestImageSave()
         {
-            var text = DateTime.Now.Ticks.ToString();
+            var text = GetTestName() + "\n\r" + DateTime.Now.Ticks.ToString();
 
-            var result0 = Frame.GetTestFrame(text, false);
-            var result1 = Frame.GetTestFrame(text, true);
+            var flipped_N = TestFrameProvider.GetTestFrame(text, false);
+            var flipped_Y = TestFrameProvider.GetTestFrame(text, true);
 
-            result0.Save(text + ".bmp");
-            result1.Save(text + "_F.bmp");
+            flipped_N.Save("flipped_N.bmp");
+            flipped_Y.Save("flipped_Y.bmp");
         }
 
     }
