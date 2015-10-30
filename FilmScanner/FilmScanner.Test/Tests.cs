@@ -18,11 +18,8 @@ namespace FilmScanner.Test
         public void Can_Scan_And_Save_Frame()
         {
             var filmSensorStub = MockRepository.GenerateStub<IDigitalIO>();
-
-            //var sprocketHoleSensorStub = MockRepository.GenerateStub<IDigitalIO>();
-            //sprocketHoleSensorStub.Stub(x => x.IsLow()).Return(false);
-            //sprocketHoleSensorStub.Stub(x => x.IsHigh()).Return(true);
-            //var filmScanner = new FilmScanner(sprocketHoleSensorStub, filmSensorStub);
+            filmSensorStub.Stub(x => x.IsLow()).Return(false);
+            filmSensorStub.Stub(x => x.IsHigh()).Return(true);
 
             var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
 
@@ -31,18 +28,38 @@ namespace FilmScanner.Test
 
             var frame = fs.GetNextFrame(filmSensorStub, new TestSprocketSensor(), fp);
 
-            Trace.WriteLine(" ");
             Trace.WriteLine(fs.ToString());
 
+            // Do we have an image?
             Assert.That(frame, Is.Not.Null);
-
             Assert.That(frame.Image, Is.Not.Null);
             Assert.That(frame.Image.Width, Is.EqualTo(640));
 
-            Trace.WriteLine("Width: " + frame.Image.Size.Width);
-            Trace.WriteLine("Height: " + frame.Image.Size.Height);
+        }
 
-            //Assert.That(new FileInfo(filename).Exists);
+
+        [Test]
+        public void TestSprocketSensor_Changes_State_After_Period()
+        {
+            var tss = new TestSprocketSensor()
+            {
+                Latency = new TimeSpan(0, 0, 0, 2)
+            };
+
+            var counter = 0;
+            while (tss.IsLow())
+            {
+                System.Threading.Thread.Sleep(100);
+                counter++;
+
+                if (counter > 100)
+                {
+                    break; // give up
+                }
+            }
+
+            Assert.That(counter, Is.LessThan(100));
+
         }
 
 

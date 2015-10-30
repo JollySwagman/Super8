@@ -9,7 +9,7 @@ namespace FilmScanner.Test
 
         public StateType State { get; set; }
 
-        private TimeSpan latency = new TimeSpan(0, 0, 3);
+        public TimeSpan Latency = new TimeSpan(0, 0, 3);
 
         private Stopwatch sw;
 
@@ -28,8 +28,9 @@ namespace FilmScanner.Test
         {
 
             Trace.WriteLine("IsLow() " + sw.Elapsed + " " + this.State.ToString());
+            Trace.WriteLine(string.Format("latency: {0}  Elapsed: {1}", this.Latency, sw.Elapsed));
 
-            if (sw.Elapsed > latency)
+            if (sw.Elapsed > this.Latency)
             {
                 ToggleStateType();
                 Trace.WriteLine("FOUND!");

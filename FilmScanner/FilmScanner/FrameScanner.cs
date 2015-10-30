@@ -54,7 +54,6 @@ namespace FilmScanner
                 throw new ArgumentNullException("frameProvider");
             }
 
-            var delayMilliseconds = 50;
 
             if (FilmSensor.IsLow())
             {
@@ -67,13 +66,15 @@ namespace FilmScanner
             var sw = new Stopwatch();           // To manage timeout
             sw.Start();
 
-            
+            //var delayMilliseconds = 50;
+
+            // Wait for sprocket hole to be detected
             while (SprocketHoleSensor.IsLow() && sw.Elapsed < frameAdvanceTimeout)
             {
-                // Wait for sprocket hole to be detected
+                // Advance the film
                 motor.Move(1);
-                Trace.WriteLine("WAITING "+ sw.Elapsed);
-                System.Threading.Thread.Sleep(delayMilliseconds);
+                Trace.WriteLine("WAITING " + sw.Elapsed);
+                //System.Threading.Thread.Sleep(delayMilliseconds);
             }
 
             sw.Stop();
