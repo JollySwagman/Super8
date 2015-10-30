@@ -10,10 +10,12 @@ namespace FilmScanner
     public class FrameScanner
     {
 
+        #region Properties
+
         private TimeSpan m_DefaultTimeout = new TimeSpan(0, 0, 6);
 
         /// <summary>
-        /// The time taken to find the frame
+        /// The time taken to line up the frame
         /// </summary>
         public TimeSpan SeekTime { get; private set; }
 
@@ -33,7 +35,7 @@ namespace FilmScanner
             set { m_DefaultTimeout = value; }
         }
 
-
+        #endregion
 
         public Frame GetNextFrame(IDigitalIO FilmSensor, IDigitalIO SprocketHoleSensor, IFrameProvider frameProvider)
         {
