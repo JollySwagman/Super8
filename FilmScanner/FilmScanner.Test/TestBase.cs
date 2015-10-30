@@ -14,7 +14,8 @@ namespace FilmScanner.Test
 
         private Stopwatch m_Stopwatch;
         private const int BANNER_WIDTH = 160;
-        private char ch = '■';
+        private char outerCh = '■';
+        private char innerCh = '─';
 
 
         //int PinLedLighting = 1;
@@ -28,10 +29,10 @@ namespace FilmScanner.Test
         public void Setup()
         {
             Trace.WriteLine("\n\n\n");
-            Trace.WriteLine("".PadRight(BANNER_WIDTH, ch));
+            Trace.WriteLine("".PadRight(BANNER_WIDTH, outerCh));
             Trace.WriteLine("Test: " + TestContext.CurrentContext.Test.Name);
             Trace.WriteLine("Started: " + DateTime.Now);
-            Trace.WriteLine("".PadRight(BANNER_WIDTH, '-'));
+            Trace.WriteLine("".PadRight(BANNER_WIDTH, innerCh));
 
             m_Stopwatch = new Stopwatch();
             m_Stopwatch.Start();
@@ -44,12 +45,12 @@ namespace FilmScanner.Test
             FileCleanup();
 
             Trace.WriteLine("\n\n");
-            Trace.WriteLine("".PadRight(BANNER_WIDTH, '-'));
+            Trace.WriteLine("".PadRight(BANNER_WIDTH, innerCh));
 
             m_Stopwatch.Stop();
             Trace.WriteLine("Test: " + TestContext.CurrentContext.Test.Name);
             Trace.WriteLine("Elapsed: " + m_Stopwatch.Elapsed.ToString());
-            Trace.WriteLine("".PadRight(BANNER_WIDTH, ch));
+            Trace.WriteLine("".PadRight(BANNER_WIDTH, outerCh));
         }
 
 

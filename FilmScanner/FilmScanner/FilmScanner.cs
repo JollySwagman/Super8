@@ -70,30 +70,30 @@ namespace FilmScanner
         //}
 
 
-        public void ScanMovie(DirectoryInfo workFolder, string outputFilename)
-        {
-            var frameScanner = new FrameScanner();
+        //public void ScanMovie(DirectoryInfo workFolder, string outputFilename)
+        //{
+        //    var frameScanner = new FrameScanner();
 
-            var frameProvider = new TestFrameProvider();
+        //    var frameProvider = new TestFrameProvider();
 
-            Frame frame = null;
-            int index = 0;
-            string filename;
-            do
-            {
-                frame = frameScanner.GetNextFrame(this.FilmSensor, this.SprocketHoleSensor, frameProvider);
+        //    Frame frame = null;
+        //    int index = 0;
+        //    string filename;
+        //    do
+        //    {
+        //        frame = frameScanner.GetNextFrame(this.FilmSensor, this.SprocketHoleSensor, frameProvider);
 
-                filename = Path.Combine(workFolder.FullName, string.Format("Frame_{0}.bmp", index));
+        //        filename = Path.Combine(workFolder.FullName, string.Format("Frame_{0}.bmp", index));
 
-                //frame.Save(filename);
-            }
-            while (frame.Result == FrameResultType.FrameOK);
+        //        //frame.Save(filename);
+        //    }
+        //    while (frame.Result == FrameResultType.FrameOK);
 
-            var imageFormat = ImageFormat.Bmp;
+        //    var imageFormat = ImageFormat.Bmp;
 
-            Video.CreateVideoFromFrameFiles(workFolder, outputFilename, imageFormat);
+        //    Video.CreateVideoFromFrameFiles(workFolder, outputFilename, imageFormat);
 
-        }
+        //}
 
     }
 

@@ -1,10 +1,6 @@
 ﻿
 using System;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using FilmScanner.Common;
 
@@ -16,7 +12,7 @@ namespace FilmScanner.Test
     {
 
         [Test]
-        public void Basic()
+        public void FilmCalc_Basic()
         {
             var calc = new FilmCalc(18)
             {

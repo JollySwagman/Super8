@@ -115,9 +115,8 @@
     <Compile Include="FrameScanner.cs" />
     <Compile Include="IDigitalIO.cs" />
     <Compile Include="IFrameProvider.cs" />
-    <Compile Include="Motor.cs" />
+    <Compile Include="StepperMotor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestFrameProvider.cs" />
     <Compile Include="Video.cs" />
   </ItemGroup>
   <ItemGroup>

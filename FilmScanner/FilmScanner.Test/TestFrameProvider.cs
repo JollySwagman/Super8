@@ -20,6 +20,11 @@ namespace FilmScanner
             return GetTestFrame(message, false);
         }
 
+        /// <summary>
+        /// Simulated delay..
+        /// </summary>
+        //public TimeSpan Delay { get; set; }
+
         public static Image GetTestFrame(string message, bool flip)
         {
 
@@ -56,6 +61,8 @@ namespace FilmScanner
                 // return a clone of the image to avoid contention???
                 result = (Image)img.Clone();
             }
+
+            System.Threading.Thread.Sleep(2+000);
 
             return result;
 

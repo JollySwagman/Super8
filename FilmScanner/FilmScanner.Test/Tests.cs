@@ -18,16 +18,21 @@ namespace FilmScanner.Test
         public void Can_Scan_And_Save_Frame()
         {
             var filmSensorStub = MockRepository.GenerateStub<IDigitalIO>();
-            var sprocketHoleSensorStub = MockRepository.GenerateStub<IDigitalIO>();
 
-            var filmScanner = new FilmScanner(sprocketHoleSensorStub, filmSensorStub);
+            //var sprocketHoleSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+            //sprocketHoleSensorStub.Stub(x => x.IsLow()).Return(false);
+            //sprocketHoleSensorStub.Stub(x => x.IsHigh()).Return(true);
+            //var filmScanner = new FilmScanner(sprocketHoleSensorStub, filmSensorStub);
 
             var filename = string.Format("test_{0}.avi", DateTime.Now.Ticks);
 
             var fp = new TestFrameProvider();
             var fs = new FrameScanner();
 
-            var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
+            var frame = fs.GetNextFrame(filmSensorStub, new TestSprocketSensor(), fp);
+
+            Trace.WriteLine(" ");
+            Trace.WriteLine(fs.ToString());
 
             Assert.That(frame, Is.Not.Null);
 
@@ -82,6 +87,37 @@ namespace FilmScanner.Test
             var fs = new FrameScanner();
 
             var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
+
+            Trace.WriteLine(fs.ToString());
+
+        }
+
+
+        [Test]
+        public void FrameScanner_Has_Elapsed_Times_After_Timeout()
+        {
+            var filmSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+            var sprocketHoleSensorStub = MockRepository.GenerateStub<IDigitalIO>();
+
+            filmSensorStub.Stub(x => x.IsHigh()).Return(true);
+            sprocketHoleSensorStub.Stub(x => x.IsLow()).Return(true);
+
+            var fp = new TestFrameProvider();
+            var fs = new FrameScanner();
+
+            fs.DefaultTimeout = new TimeSpan(0, 0, 4);
+
+            try
+            {
+                var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
+            }
+            catch (Exception)
+            {
+                Trace.WriteLine(fs.ToString());
+
+                Assert.That(fs.TotalElapsed.Seconds, Is.GreaterThanOrEqualTo(4));
+            }
+
         }
 
 
@@ -114,7 +150,7 @@ namespace FilmScanner.Test
 
                 var frameFile = new FileInfo(Path.Combine(workFolder.FullName, filename));
 
-                Trace.WriteLine(string.Format("writing to {0} ({1})", frameFile.FullName, frameFile.Exists));
+                // Trace.WriteLine(string.Format("writing to {0} ({1})", frameFile.FullName, frameFile.Exists));
 
                 frame.Save(frameFile.FullName, imageFormat);
 
