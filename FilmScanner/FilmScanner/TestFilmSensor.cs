@@ -2,9 +2,9 @@
 using System;
 using System.Diagnostics;
 
-namespace FilmScanner.Test
+namespace FilmScanner
 {
-    public class TestSprocketSensor : IDigitalIO
+    public class TestFilmSensor : IDigitalIO
     {
 
         public StateType State { get; set; }
@@ -13,12 +13,6 @@ namespace FilmScanner.Test
 
         private Stopwatch sw;
 
-        public TestSprocketSensor()
-        {
-            sw = new Stopwatch();
-            sw.Start();
-        }
-
         public bool IsHigh()
         {
             return this.State == StateType.HIGH;
@@ -26,17 +20,6 @@ namespace FilmScanner.Test
 
         public bool IsLow()
         {
-
-            Trace.WriteLine("IsLow() " + sw.Elapsed + " " + this.State.ToString());
-            Trace.WriteLine(string.Format("latency: {0}  Elapsed: {1}", this.Latency, sw.Elapsed));
-
-            if (sw.Elapsed > this.Latency)
-            {
-                ToggleStateType();
-                Trace.WriteLine("FOUND!");
-                sw.Reset();
-            }
-
             return this.State == StateType.LOW;
         }
 

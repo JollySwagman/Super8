@@ -6,6 +6,8 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Drawing.Imaging;
 using System.IO;
+using FilmScanner;
+using System.Diagnostics;
 
 namespace Super8Scanner.UI
 {
@@ -15,6 +17,8 @@ namespace Super8Scanner.UI
     /// </summary>
     public partial class Form2 : Form
     {
+
+        private FilmScanner.FrameScanner m_FrameScanner;
 
         private bool DeviceExist = false;
 
@@ -67,7 +71,7 @@ namespace Super8Scanner.UI
                     videoSource.Start();
                     label2.Text = "Device running...";
                     start.Text = "&Stop";
-                    timer1.Enabled = true;
+                    //timer1.Enabled = true;
                     btnSnapshot.Enabled = true;
                 }
                 else
@@ -79,7 +83,7 @@ namespace Super8Scanner.UI
             {
                 if (videoSource.IsRunning)
                 {
-                    timer1.Enabled = false;
+                    //timer1.Enabled = false;
                     CloseVideoSource();
                     label2.Text = "Device stopped.";
                     start.Text = "&Start";
@@ -94,8 +98,6 @@ namespace Super8Scanner.UI
         //eventhandler if new frame is ready
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            //Bitmap img = (Bitmap)eventArgs.Frame.Clone();
-
             if (m_image != null)
             {
                 m_image.Dispose();
@@ -106,10 +108,12 @@ namespace Super8Scanner.UI
 
             if (takeFrame)
             {
-                // Save the frame to disk
-                var filename = new FileInfo(@"c:\dev\frames\frame_" + DateTime.Now.Ticks + ".png");
-                m_image.Save(filename.FullName, ImageFormat.Png);
                 takeFrame = false;
+                // Save the frame to disk
+                var filename = new FileInfo("frame_" + DateTime.Now.Ticks + ".png");
+                m_image.Save(filename.FullName, ImageFormat.Png);
+                label2.Invoke((Action)(() => label2.Text = filename.Name + " taken"));
+                //label2.Text = filename.Name + " taken";
             }
 
         }
@@ -125,11 +129,11 @@ namespace Super8Scanner.UI
                 }
         }
 
-        //get total received frame at 1 second tick
+        ////get total received frame at 1 second tick
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label2.Text = "Device running... " + videoSource.FramesReceived.ToString() + " FPS";
-            takeFrame = true;
+            //    label2.Text = "Device running... " + videoSource.FramesReceived.ToString() + " FPS";
+            //    // takeFrame = true;
         }
 
         //prevent sudden close while device is running
@@ -141,7 +145,7 @@ namespace Super8Scanner.UI
         private void Form2_Load(object sender, EventArgs e)
         {
             getCamList();
-
+            //m_FrameScanner.ThresholdReached
         }
 
         private void btnSnapshot_Click(object sender, EventArgs e)
@@ -149,6 +153,34 @@ namespace Super8Scanner.UI
             takeFrame = true;
         }
 
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+            //this.Close();
+        }
+
+        private void btnCapture_Click(object sender, EventArgs e)
+        {
+            btnCapture.Enabled = false;
+            m_FrameScanner = new FilmScanner.FrameScanner();
+            //m_FrameScanner.ThresholdReached += c_ThresholdReached;
+            var testss = new TestSprocketSensor();
+            var testfs = new TestFilmSensor() { State = StateType.HIGH };
+            for (int i = 0; i < 10; i++)
+            {
+                m_FrameScanner.SeekNextFrame(testfs, testss, new TimeSpan(0, 0, 6));
+                this.takeFrame = true;
+
+                //System.Threading.Thread.Sleep(800);
+                while (this.takeFrame)
+                {
+                    Trace.WriteLine("waiting for capture");
+                    Application.DoEvents();
+                    System.Threading.Thread.Sleep(20);
+                }
+            }
+            btnCapture.Enabled = true;
+        }
     }
 
 }

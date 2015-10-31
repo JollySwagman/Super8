@@ -26,7 +26,7 @@ namespace FilmScanner.Test
             var fp = new TestFrameProvider();
             var fs = new FrameScanner();
 
-            var frame = fs.GetNextFrame(filmSensorStub, new TestSprocketSensor(), fp);
+            var frame = fs.MoveToNextFrame(filmSensorStub, new TestSprocketSensor(), fp);
 
             Trace.WriteLine(fs.ToString());
 
@@ -68,7 +68,7 @@ namespace FilmScanner.Test
         public void Throw_On_Null_FrameProvider()
         {
             var fs = new FrameScanner();
-            var frame = fs.GetNextFrame(null, null, null);
+            var frame = fs.MoveToNextFrame(null, null, null);
         }
 
 
@@ -86,7 +86,7 @@ namespace FilmScanner.Test
             var fp = new TestFrameProvider();
             var fs = new FrameScanner();
 
-            var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
+            var frame = fs.MoveToNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
         }
 
 
@@ -103,7 +103,7 @@ namespace FilmScanner.Test
             var fp = new TestFrameProvider();
             var fs = new FrameScanner();
 
-            var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
+            var frame = fs.MoveToNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
 
             Trace.WriteLine(fs.ToString());
 
@@ -126,7 +126,7 @@ namespace FilmScanner.Test
 
             try
             {
-                var frame = fs.GetNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
+                var frame = fs.MoveToNextFrame(filmSensorStub, sprocketHoleSensorStub, fp);
             }
             catch (Exception)
             {
