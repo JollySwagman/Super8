@@ -171,7 +171,7 @@ namespace Super8Scanner.UI
                 m_FrameScanner.SeekNextFrame(testfs, testss, new TimeSpan(0, 0, 6));
                 this.takeFrame = true;
 
-                //System.Threading.Thread.Sleep(800);
+                // wait for frame capture
                 while (this.takeFrame)
                 {
                     Trace.WriteLine("waiting for capture");

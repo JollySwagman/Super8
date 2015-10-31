@@ -41,7 +41,6 @@ namespace FilmScanner
 
         public void SeekNextFrame(IDigitalIO FilmSensor, IDigitalIO SprocketHoleSensor, TimeSpan frameAdvanceTimeout)
         {
-
             if (FilmSensor.IsLow())
             {
                 throw new InvalidOperationException("No film detected.");
@@ -118,78 +117,78 @@ namespace FilmScanner
 
 
 
-        public Frame MoveToNextFrame(IDigitalIO FilmSensor, IDigitalIO SprocketHoleSensor, IFrameProvider frameProvider)
-        {
-            return MoveToNextFrame(FilmSensor, SprocketHoleSensor, this.DefaultTimeout, frameProvider);
-        }
+        //public Frame MoveToNextFrame(IDigitalIO FilmSensor, IDigitalIO SprocketHoleSensor, IFrameProvider frameProvider)
+        //{
+        //    return MoveToNextFrame(FilmSensor, SprocketHoleSensor, this.DefaultTimeout, frameProvider);
+        //}
 
-        /// <summary>
-        /// Manages the scanning process to advance to and take one frame
-        /// </summary>
-        /// <returns></returns>
-        public Frame MoveToNextFrame(IDigitalIO FilmSensor, IDigitalIO SprocketHoleSensor, TimeSpan frameAdvanceTimeout, IFrameProvider frameProvider)
-        {
+        ///// <summary>
+        ///// Manages the scanning process to advance to and take one frame
+        ///// </summary>
+        ///// <returns></returns>
+        //public Frame MoveToNextFrame(IDigitalIO FilmSensor, IDigitalIO SprocketHoleSensor, TimeSpan frameAdvanceTimeout, IFrameProvider frameProvider)
+        //{
 
-            //if (frameProvider == null)
-            //{
-            //    throw new ArgumentNullException("frameProvider");
-            //}
-
-
-            if (FilmSensor.IsLow())
-            {
-                throw new InvalidOperationException("No film detected.");
-            }
-
-            // Find the first sprocket hole...
-            var motor = new StepperMotor();
-
-            var sw = new Stopwatch();           // To manage timeout
-            sw.Start();
-
-            //var delayMilliseconds = 50;
-
-            // Wait for sprocket hole to be detected
-            while (SprocketHoleSensor.IsLow() && sw.Elapsed < frameAdvanceTimeout)
-            {
-                // Advance the film
-                motor.Move(1);
-                //Trace.WriteLine("WAITING " + sw.Elapsed);
-                //System.Threading.Thread.Sleep(delayMilliseconds);
-            }
-
-            sw.Stop();
-            this.SeekTime = sw.Elapsed;
-
-            // Still low - we've timed out
-            if (SprocketHoleSensor.IsLow())
-            {
-                throw new TimeoutException("No sprocket hole detected within timeout period.");
-            }
+        //    //if (frameProvider == null)
+        //    //{
+        //    //    throw new ArgumentNullException("frameProvider");
+        //    //}
 
 
-            //
-            // WE SHOULD HAVE A FRAME LINED UP IN THE SCANNER NOW ...
-            //
+        //    if (FilmSensor.IsLow())
+        //    {
+        //        throw new InvalidOperationException("No film detected.");
+        //    }
 
-            // GET THE IMAGE!
-            sw.Restart();
-            //var image = frameProvider.CaptureFrame();
-            // TELL CLIENT TO CAPTURE IMAGE
-            //OnThresholdReached(EventArgs.Empty);
-            sw.Stop();
-            this.CaptureTime = sw.Elapsed;
+        //    // Find the first sprocket hole...
+        //    var motor = new StepperMotor();
+
+        //    var sw = new Stopwatch();           // To manage timeout
+        //    sw.Start();
+
+        //    //var delayMilliseconds = 50;
+
+        //    // Wait for sprocket hole to be detected
+        //    while (SprocketHoleSensor.IsLow() && sw.Elapsed < frameAdvanceTimeout)
+        //    {
+        //        // Advance the film
+        //        motor.Move(1);
+        //        //Trace.WriteLine("WAITING " + sw.Elapsed);
+        //        //System.Threading.Thread.Sleep(delayMilliseconds);
+        //    }
+
+        //    sw.Stop();
+        //    this.SeekTime = sw.Elapsed;
+
+        //    // Still low - we've timed out
+        //    if (SprocketHoleSensor.IsLow())
+        //    {
+        //        throw new TimeoutException("No sprocket hole detected within timeout period.");
+        //    }
 
 
-            // Package result
-            var result = new Frame()
-            {
-                //                Image = image,
-                //              Result = FrameResultType.FrameOK
-            };
+        //    //
+        //    // WE SHOULD HAVE A FRAME LINED UP IN THE SCANNER NOW ...
+        //    //
 
-            return result;
-        }
+        //    // GET THE IMAGE!
+        //    sw.Restart();
+        //    //var image = frameProvider.CaptureFrame();
+        //    // TELL CLIENT TO CAPTURE IMAGE
+        //    //OnThresholdReached(EventArgs.Empty);
+        //    sw.Stop();
+        //    this.CaptureTime = sw.Elapsed;
+
+
+        //    // Package result
+        //    var result = new Frame()
+        //    {
+        //        //                Image = image,
+        //        //              Result = FrameResultType.FrameOK
+        //    };
+
+        //    return result;
+        //}
 
     }
 
