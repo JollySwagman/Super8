@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmScanner.UI", "FilmScann
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmScanner.Common", "FilmScanner.Common\FilmScanner.Common.csproj", "{76AB1DA5-930E-4026-95F1-0AB7A3B1A1E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmScanner.Arduino", "FilmScanner.Arduino\FilmScanner.Arduino.csproj", "{E2106E77-E579-479E-823E-4C8C08307E2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{76AB1DA5-930E-4026-95F1-0AB7A3B1A1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76AB1DA5-930E-4026-95F1-0AB7A3B1A1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76AB1DA5-930E-4026-95F1-0AB7A3B1A1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2106E77-E579-479E-823E-4C8C08307E2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2106E77-E579-479E-823E-4C8C08307E2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2106E77-E579-479E-823E-4C8C08307E2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2106E77-E579-479E-823E-4C8C08307E2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

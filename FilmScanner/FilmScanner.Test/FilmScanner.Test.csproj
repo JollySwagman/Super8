@@ -69,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FilmScanner.Arduino\FilmScanner.Arduino.csproj">
+      <Project>{e2106e77-e579-479e-823e-4c8c08307e2e}</Project>
+      <Name>FilmScanner.Arduino</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FilmScanner.Common\FilmScanner.Common.csproj">
       <Project>{76ab1da5-930e-4026-95f1-0ab7a3b1a1e1}</Project>
       <Name>FilmScanner.Common</Name>
