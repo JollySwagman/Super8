@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -35,7 +36,43 @@ namespace FilmScanner.Common
             {
                 // do nothing
             }
-            return result;
+
+
+
+
+            return FixIndents(result);
+        }
+
+        private static string FixIndents(string value)
+        {
+            var result = new StringBuilder();
+            var lines = value.Split('\n');
+
+            int pos = 0;
+            foreach (var item in lines)
+            {
+                var thisPos = item.IndexOf(':');
+                if (thisPos > pos)
+                {
+                    pos = thisPos;
+                }
+            }
+
+            Trace.WriteLine("Pos: " + pos);
+
+            foreach (var item in lines)
+            {
+                var colonPos = item.IndexOf(':');
+                var newLine = item;
+                if (colonPos > 0 && colonPos < pos)
+                {
+                    newLine = "".PadRight(pos - colonPos) + item;
+                }
+                result.Append(newLine);
+
+            }
+
+            return result.ToString();
         }
 
         /// <summary>
