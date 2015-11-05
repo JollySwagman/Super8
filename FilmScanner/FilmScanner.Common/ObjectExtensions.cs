@@ -37,9 +37,6 @@ namespace FilmScanner.Common
                 // do nothing
             }
 
-
-
-
             return FixIndents(result);
         }
 

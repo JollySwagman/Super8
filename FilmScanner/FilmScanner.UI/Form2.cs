@@ -8,6 +8,9 @@ using System.Drawing.Imaging;
 using System.IO;
 using FilmScanner;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+using FilmScanner.Arduino;
 
 namespace Super8Scanner.UI
 {
@@ -18,43 +21,17 @@ namespace Super8Scanner.UI
     public partial class Form2 : Form
     {
 
-        private FilmScanner.FrameScanner m_FrameScanner;
-
+        private Bitmap m_image;
+        private bool takeFrame = false;
+        //private FrameScanner m_FrameScanner;
         private bool DeviceExist = false;
-
         private FilterInfoCollection videoDevices;
-
         private VideoCaptureDevice videoSource = null;
 
         public Form2()
         {
             InitializeComponent();
         }
-
-        // get the devices name
-        private void getCamList()
-        {
-            try
-            {
-                videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-                comboBox1.Items.Clear();
-                if (videoDevices.Count == 0)
-                    throw new ApplicationException();
-
-                DeviceExist = true;
-                foreach (FilterInfo device in videoDevices)
-                {
-                    comboBox1.Items.Add(device.Name);
-                }
-                comboBox1.SelectedIndex = 0; //make dafault to first cam
-            }
-            catch (ApplicationException)
-            {
-                DeviceExist = false;
-                comboBox1.Items.Add("No capture device on your system");
-            }
-        }
-
 
         //toggle start and stop button
         private void start_Click(object sender, EventArgs e)
@@ -92,8 +69,6 @@ namespace Super8Scanner.UI
             }
         }
 
-        private Bitmap m_image;
-        private bool takeFrame = false;
 
         //eventhandler if new frame is ready
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -144,7 +119,7 @@ namespace Super8Scanner.UI
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            getCamList();
+            GetCamList();
             //m_FrameScanner.ThresholdReached
         }
 
@@ -161,26 +136,56 @@ namespace Super8Scanner.UI
 
         private void btnCapture_Click(object sender, EventArgs e)
         {
-            btnCapture.Enabled = false;
-            m_FrameScanner = new FilmScanner.FrameScanner();
-            //m_FrameScanner.ThresholdReached += c_ThresholdReached;
-            var testss = new TestSprocketSensor();
-            var testfs = new TestFilmSensor() { State = StateType.HIGH };
-            for (int i = 0; i < 10; i++)
-            {
-                m_FrameScanner.SeekNextFrame(testfs, testss, new TimeSpan(0, 0, 6));
-                this.takeFrame = true;
 
-                // wait for frame capture
-                while (this.takeFrame)
-                {
-                    Trace.WriteLine("waiting for capture");
-                    Application.DoEvents();
-                    System.Threading.Thread.Sleep(20);
-                }
+            btnCapture.Enabled = false;
+
+            var controller = new Controller("COM1");
+
+
+            var frameFound = Controller.SeekResult.Found;
+
+            // Loop through frames
+            while (frameFound == Controller.SeekResult.Found)
+            {
+
+
+                frameFound = controller.SeekToNextFrame();
             }
+
+
+
             btnCapture.Enabled = true;
+
         }
+
+
+        // get the devices name
+        private void GetCamList()
+        {
+            try
+            {
+                videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+                comboBox1.Items.Clear();
+                if (videoDevices.Count == 0)
+                    throw new ApplicationException();
+
+                DeviceExist = true;
+                foreach (FilterInfo device in videoDevices)
+                {
+                    comboBox1.Items.Add(device.Name);
+                }
+                comboBox1.SelectedIndex = 0; //make dafault to first cam
+            }
+            catch (ApplicationException)
+            {
+                DeviceExist = false;
+                comboBox1.Items.Add("No capture device on your system");
+            }
+        }
+
+
+
+
     }
 
 }
