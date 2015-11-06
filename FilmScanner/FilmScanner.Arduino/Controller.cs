@@ -1,6 +1,7 @@
 ﻿
 using System.IO.Ports;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,11 +29,14 @@ namespace FilmScanner.Arduino
         }
 
 
+        const string EOD = "\r"; // End Of Data
+
         private IList<string> m_ReceiveLog = new List<string>();
         private string m_ReceiveLine;
         private SerialPort arduinoBoard;
 
         public TimeSpan Timeout { get; set; }
+
 
         public Controller(string portName) : this(portName, new TimeSpan(0, 0, 3))
         { }
@@ -59,7 +63,7 @@ namespace FilmScanner.Arduino
                     result = SeekResult.Found;
                     break;
                 case "TIMEOUT":
-                    result = SeekResult.Timeout ;
+                    result = SeekResult.Timeout;
                     break;
                 case "ENDOFFILM":
                     result = SeekResult.EndOfFilm;
@@ -69,25 +73,30 @@ namespace FilmScanner.Arduino
                     break;
             }
 
-
             return result;
-
         }
 
 
         private string ExecCommand(Command command)
         {
             this.m_ReceiveLine = null;
+
             arduinoBoard.Write(command + "\n");
 
+            var sw = new Stopwatch();
+            sw.Start();
 
-            // Wait for response
-            while (this.m_ReceiveLine.IsNullOrWhiteSpace())
+            // Wait for response or timeout
+            while (this.m_ReceiveLine.IsNotNullOrEmpty())
             {
+                if (sw.Elapsed >= this.Timeout)
+                {
+                    this.m_ReceiveLine = "TIMEOUT";
+                    break;  // GOTO!
+                }
                 System.Threading.Thread.Sleep(100);
             }
-
-            return null;
+            return this.m_ReceiveLine;
         }
 
 
@@ -104,23 +113,9 @@ namespace FilmScanner.Arduino
 
         void arduinoBoard_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            const string EOD = "\r"; // End Of Data
-
             this.m_ReceiveLine = arduinoBoard.ReadTo(EOD);  //Read until the EOT code
 
             this.m_ReceiveLog.Add(this.m_ReceiveLine);
-
-            //string[] dataArray = data.Split(new string[] { "\x02", "$" }, StringSplitOptions.RemoveEmptyEntries);
-            ////Iterate through the split data and parse it into weather data items
-            ////and add them to the list of received weather data.
-            //foreach (string dataItem in dataArray.ToList())
-            //{
-            //}
-            //if (NewWeatherDataReceived != null)//If there is someone waiting for this event to be fired
-            //{
-            //    NewWeatherDataReceived(this, new EventArgs()); //Fire the event, 
-            //                                                   // indicating that new WeatherData was added to the list.
-            //}
         }
 
         public override string ToString()

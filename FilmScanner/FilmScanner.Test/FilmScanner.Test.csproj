@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="MotorTests.cs" />
     <Compile Include="TestFrameProvider.cs" />
+    <Compile Include="SerialTests.cs" />
     <Compile Include="VideoTests.cs" />
     <Compile Include="FilmCalcTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
