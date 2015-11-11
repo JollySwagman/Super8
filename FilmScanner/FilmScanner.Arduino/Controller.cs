@@ -28,6 +28,7 @@ namespace FilmScanner.Arduino
             Seek
         }
 
+
         const string EOD = "\r"; // End Of Data
 
         private IList<string> m_ReceiveLog = new List<string>();
